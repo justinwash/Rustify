@@ -1,0 +1,105 @@
+html {
+  font-family: sans-serif;
+  background: #201F1D;
+  color: white;
+}
+
+.stack {
+  --space: 0.5rem;
+}
+
+.stack > * {
+  margin-top: 0;
+  margin-bottom: 0;
+} 
+
+.stack > * + * {
+  margin-top: 0.5rem;
+}
+
+.now-playing {
+  width: 100%;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.2rem;
+  line-height: 0;
+  width: 80%;
+}
+
+input[type=range] {
+  margin: -1rem;
+}
+
+.controls-buttons {
+  margin-top: 0;
+}
+
+.artist-name {
+  font-size: 0.65rem;
+}
+
+.album-title {
+  font-size: 0.65rem;
+  font-weight: 400;
+}
+
+.queue {
+  height: 40%;
+  background: rgb(45, 45, 45);
+}
+
+table {
+    counter-reset: rowNumber;
+    width: 100%;
+    font-size: 0.8rem;
+    overflow-y: auto;
+}
+
+table tr > td:first-child {
+    counter-increment: rowNumber;
+}
+
+table tr td:first-child::before {
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+}
+
+table>tbody>tr:nth-child(odd)> td:nth-child(odd) {background-color:rgb(45, 45, 45)}
+table>tbody>tr:nth-child(odd)> td:nth-child(even){background-color:rgb(40, 40, 40)}
+table>tbody>tr:nth-child(even)>td:nth-child(odd) {background-color:rgb(35,35,35)}
+table>tbody>tr:nth-child(even)>td:nth-child(even){background-color:rgb(30,30,30)}
+
+.browser-search-bar {
+  display: flex;
+  flex-direction: row;
+}
+
+.browser-search-input {
+   border: solid 1px grey;
+   background: rgb(45,45,45);
+   color: white;
+   flex-grow: 2;
+}
+
+.browser-search-button {
+   border: solid 1px grey;
+   background: rgb(30,30,30);
+   color: white;
+}
+
+.browser {
+  height: 42%;
+  background: rgb(45, 45, 45);
+}
+
+
