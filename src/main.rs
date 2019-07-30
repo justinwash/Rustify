@@ -10,6 +10,28 @@ use rspotify::spotify::util::get_token;
 use rspotify::spotify::oauth2::{SpotifyClientCredentials, SpotifyOAuth};
 
 fn main() -> WVResult {
+    let mut oauth = SpotifyOAuth::default()
+        .scope("playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private")
+        .build();
+
+    match get_token(&mut oauth) {
+        Some(token_info) => {
+            let client_credential = SpotifyClientCredentials::default()
+                .token_info(token_info)
+                .build();
+
+            let spotify = Spotify::default()
+                .client_credentials_manager(client_credential)
+                .build();
+            
+            let mut tekken_time_id = String::from("1lfiYGhqUgKvernVxawzFo");
+            let tekken_time = spotify.user_playlist(&spotify.me().unwrap().id, Some(&mut tekken_time_id), None, None);
+
+            println!("{:#?}", tekken_time);
+        }
+        None => println!("auth failed"),
+    };
+
     let html = format!(
         include_str!("./web/index.html"),
         style = include_str!("./web/index.css"),
@@ -34,27 +56,6 @@ fn main() -> WVResult {
             Ok(())
         })
         .build()?;
-
-    let mut oauth = SpotifyOAuth::default()
-        .scope("user-read-recently-played")
-        .build();
-
-    match get_token(&mut oauth) {
-        Some(token_info) => {
-            let client_credential = SpotifyClientCredentials::default()
-                .token_info(token_info)
-                .build();
-
-            let spotify = Spotify::default()
-                .client_credentials_manager(client_credential)
-                .build();
-
-            let history = spotify.current_user_recently_played(10);
-
-            println!("{:?}", history);
-        }
-        None => println!("auth failed"),
-    };
 
     webview.run()
 }
