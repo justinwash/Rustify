@@ -2,10 +2,16 @@ html {
   font-family: sans-serif;
   background: #201F1D;
   color: white;
+  overflow: hidden;
+}
+
+.main {
+  overflow: hidden;
 }
 
 .stack {
   --space: 0.5rem;
+  overflow: hidden;
 }
 
 .stack > * {
@@ -24,6 +30,7 @@ html {
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
+  height: 48px;
 }
 
 .controls {
@@ -33,6 +40,8 @@ html {
   font-size: 1.2rem;
   line-height: 0;
   width: 80%;
+  z-index: 10;
+  overflow: visible;
 }
 
 input[type=range] {
@@ -41,6 +50,7 @@ input[type=range] {
 
 .controls-buttons {
   margin-top: 0;
+  background: rgb(35,35,35);
 }
 
 .artist-name {
@@ -53,8 +63,9 @@ input[type=range] {
 }
 
 .queue {
-  height: 40%;
+  height: calc(((100% - 48px) / 100) * 46);
   background: rgb(45, 45, 45);
+  overflow-y: auto;
 }
 
 table {
@@ -62,6 +73,7 @@ table {
     width: 100%;
     font-size: 0.8rem;
     overflow-y: auto;
+    cursor: default;
 }
 
 table tr > td:first-child {
@@ -74,10 +86,20 @@ table tr td:first-child::before {
     margin-right: 0.5em;
 }
 
-table>tbody>tr:nth-child(odd)> td:nth-child(odd) {background-color:rgb(45, 45, 45)}
-table>tbody>tr:nth-child(odd)> td:nth-child(even){background-color:rgb(40, 40, 40)}
-table>tbody>tr:nth-child(even)>td:nth-child(odd) {background-color:rgb(35,35,35)}
-table>tbody>tr:nth-child(even)>td:nth-child(even){background-color:rgb(30,30,30)}
+table>tbody>tr:nth-child(odd)> td:nth-child(odd)  {background-color:rgb(45, 45, 45)}
+table>tbody>tr:nth-child(odd)> td:nth-child(even) {background-color:rgb(40, 40, 40)}
+table>tbody>tr:nth-child(even)>td:nth-child(odd)  {background-color:rgb(35, 35, 35)}
+table>tbody>tr:nth-child(even)>td:nth-child(even) {background-color:rgb(30, 30, 30)}
+
+table>tbody>tr:nth-child(odd).selected> td:nth-child(odd)  {background-color:rgb(15, 15, 15)}
+table>tbody>tr:nth-child(odd).selected> td:nth-child(even) {background-color:rgb(15, 15, 15)}
+table>tbody>tr:nth-child(even).selected>td:nth-child(odd)  {background-color:rgb(15, 15, 15)}
+table>tbody>tr:nth-child(even).selected>td:nth-child(even) {background-color:rgb(15, 15, 15)}
+
+table>tbody>tr:nth-child(odd).playing> td:nth-child(odd)  {font-weight: bold;}
+table>tbody>tr:nth-child(odd).playing> td:nth-child(even) {font-weight: bold;}
+table>tbody>tr:nth-child(even).playing>td:nth-child(odd)  {font-weight: bold;}
+table>tbody>tr:nth-child(even).playing>td:nth-child(even) {font-weight: bold;}
 
 .browser-search-bar {
   display: flex;
@@ -98,8 +120,19 @@ table>tbody>tr:nth-child(even)>td:nth-child(even){background-color:rgb(30,30,30)
 }
 
 .browser {
-  height: 42%;
+  height: calc(((100% - 48px) / 100) * 46);
   background: rgb(45, 45, 45);
+  overflow-y: auto;
 }
 
+.footer {
+  width: 100%;
+  text-align: center;
+  font-size: 0.5rem;
+  height: calc(((100% - 48px) / 100) * 2);
 
+}
+
+table tr.selected {
+  background: rgb(30,30,30);
+}

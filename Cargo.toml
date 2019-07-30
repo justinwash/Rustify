@@ -7,5 +7,8 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-webview = "0.1.1"
-tiny_http = "0.6.2"
+web-view = "0.4.1"
+rspotify = "0.6.0"
+serde = "1.0.98"
+serde_derive = "1.0.98"
+serde_json = "1.0"
