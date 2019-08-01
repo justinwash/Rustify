@@ -2,36 +2,28 @@
 extern crate serde_derive;
 extern crate serde_json;
 extern crate web_view;
+extern crate tokio_core;
+extern crate librespot;
+
+use std::thread;
 
 use web_view::*;
+// use std::io;
+use tokio_core::reactor::Core;
 
-use rspotify::spotify::client::Spotify;
-use rspotify::spotify::util::get_token;
-use rspotify::spotify::oauth2::{SpotifyClientCredentials, SpotifyOAuth};
+use librespot::core::authentication::Credentials;
+use librespot::core::config::SessionConfig;
+use librespot::core::session::Session;
+use librespot::core::spotify_id::SpotifyId;
+use librespot::playback::config::PlayerConfig;
+use librespot::playback::audio_backend;
+use librespot::playback::player::Player;
 
-fn main() -> WVResult {
-    let mut oauth = SpotifyOAuth::default()
-        .scope("playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private")
-        .build();
+fn main() {
+    create_webview().expect("Error creating webview");
+}
 
-    match get_token(&mut oauth) {
-        Some(token_info) => {
-            let client_credential = SpotifyClientCredentials::default()
-                .token_info(token_info)
-                .build();
-
-            let spotify = Spotify::default()
-                .client_credentials_manager(client_credential)
-                .build();
-            
-            let mut tekken_time_id = String::from("1lfiYGhqUgKvernVxawzFo");
-            let tekken_time = spotify.user_playlist(&spotify.me().unwrap().id, Some(&mut tekken_time_id), None, None);
-
-            println!("{:#?}", tekken_time);
-        }
-        None => println!("auth failed"),
-    };
-
+fn create_webview() -> WVResult {
     let html = format!(
         include_str!("./web/index.html"),
         style = include_str!("./web/index.css"),
@@ -40,7 +32,7 @@ fn main() -> WVResult {
     );
 
     let webview = web_view::builder()
-        .title("Dialog example")
+        .title("Rustify")
         .content(Content::Html(html))
         .size(480, 600)
         .resizable(true)
@@ -52,6 +44,36 @@ fn main() -> WVResult {
             match serde_json::from_str(arg).unwrap() {
                 Init => (),
                 Log { text } => println!("{}", text),
+                Play { song } => {
+                    thread::spawn(move || {
+                        let mut core = Core::new().unwrap();
+                        let handle = core.handle();
+    
+                        let session_config = SessionConfig::default();
+                        let player_config = PlayerConfig::default();
+    
+                        let username = String::from("");
+                        let password = String::from("");
+        
+                        let credentials = Credentials::with_password(username, password);
+    
+                        let track = SpotifyId::from_base62(&"0bnFwEUpPzsfQBz2p4PiR2").unwrap();
+    
+                        let backend = audio_backend::find(None).unwrap();
+    
+                        println!("Connecting ..");
+                        let session = core
+                            .run(Session::connect(session_config, credentials, None, handle))
+                            .unwrap();
+    
+                        let (player, _) = Player::new(player_config, session.clone(), None, move || (backend)(None));
+    
+                        println!("Playing {} by {}", song.0, song.1);
+                        core.run(player.load(track, true, 0)).unwrap();
+    
+                        println!("Done");
+                    });
+                }
             }   
             Ok(())
         })
@@ -65,4 +87,5 @@ fn main() -> WVResult {
 pub enum Cmd {
     Init,
     Log { text: String },
+    Play { song: (String, String) },
 }

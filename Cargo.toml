@@ -8,7 +8,10 @@ edition = "2018"
 
 [dependencies]
 web-view = "0.4.1"
-rspotify = "0.6.0"
 serde = "1.0.98"
 serde_derive = "1.0.98"
 serde_json = "1.0"
+tokio-core = "0.1"
+
+[dependencies.librespot]
+git = "https://github.com/librespot-org/librespot.git"
