@@ -132,7 +132,3 @@ table>tbody>tr:nth-child(even).playing>td:nth-child(even) {font-weight: bold;}
   height: calc(((100% - 48px) / 100) * 2);
 
 }
-
-table tr.selected {
-  background: rgb(30,30,30);
-}
