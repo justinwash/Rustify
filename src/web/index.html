@@ -1,26 +1,26 @@
-<style>
-  {style}
-</style>
-
 <div class="stack main" id="main">
   <div class="now-playing" id="now-playing">
     <div class="song-info">
-      <div class="song-title" id="song-title">Song Title</div>
-      <div class="artist-name" id="artist-name">Artist Name</div>
-      <div class="album-title" id="album-title">Album Title</div>
+      <div class="song-title" id="song-title">{{{{ currentTrack.title }}}}</div>
+      <div class="artist-name" id="artist-name">{{{{ currentTrack.artist }}}}</div>
+      <div class="album-title" id="album-title">{{{{ currentTrack.album }}}}</div>
     </div>
     <div class="controls stack">
-      <input type="range" value="0">
+      <input type="range" v-bind:value="scrubber" min="0" v-bind:max="currentTrack.length">
       <div class="controls-buttons">⏪ ⏯ ⏩</div>
     </div>
   </div>
   <div class="queue">
     <table id="queueTable">
-      <tr>
-        <td>Green</td>
-        <td>tyedye kye</td>
-        <td>Color Palettes: Side A</td>
-        <td>3:21</td>
+      <tr v-for="track in queue.tracks" 
+          v-bind:class="{{  selected: queue.highlightedTrackId == track.id,
+                            playing: currentTrack.id == track.id }}"
+          v-on:click="highlightInQueue(track.id)"
+          v-on:dblclick="playFromQueue(track)">
+        <td>{{{{ track.title }}}}</td>
+        <td>{{{{ track.artist }}}}</td>
+        <td>{{{{ track.album }}}}</td>
+        <td>{{{{ fancyTimeFormat(track.length) }}}}</td>
       </tr>
     </table>
   </div>
@@ -38,6 +38,10 @@
 </div>
 
 <script>
-  {jquery}
+  {vue}
   {script}
 </script>
+
+<style>
+  {style}
+</style>

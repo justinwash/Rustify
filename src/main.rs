@@ -28,13 +28,13 @@ fn create_webview() -> WVResult {
         include_str!("./web/index.html"),
         style = include_str!("./web/index.css"),
         script = include_str!("./web/index.js") ,
-        jquery = include_str!("./web/dep/jquery.min.js")
+        vue = include_str!("./web/dep/vue.min.js")
     );
 
     let webview = web_view::builder()
         .title("Rustify")
         .content(Content::Html(html))
-        .size(480, 600)
+        .size(600, 600)
         .resizable(true)
         .debug(true)
         .user_data(())
@@ -57,7 +57,7 @@ fn create_webview() -> WVResult {
         
                         let credentials = Credentials::with_password(username, password);
     
-                        let track = SpotifyId::from_base62(&"0bnFwEUpPzsfQBz2p4PiR2").unwrap();
+                        let track = SpotifyId::from_base62(&song.id).unwrap();
     
                         let backend = audio_backend::find(None).unwrap();
     
@@ -68,7 +68,7 @@ fn create_webview() -> WVResult {
     
                         let (player, _) = Player::new(player_config, session.clone(), None, move || (backend)(None));
     
-                        println!("Playing {} by {}", song.0, song.1);
+                        println!("Playing {} by {}", song.title, song.artist);
                         core.run(player.load(track, true, 0)).unwrap();
     
                         println!("Done");
@@ -87,5 +87,14 @@ fn create_webview() -> WVResult {
 pub enum Cmd {
     Init,
     Log { text: String },
-    Play { song: (String, String) },
+    Play { song: Track },
+}
+
+#[derive(Deserialize)]
+pub struct Track {
+    pub id: String,
+    pub title: String,
+    pub artist: String,
+    pub album: String,
+    pub length: u32
 }
