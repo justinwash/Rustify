@@ -135,4 +135,4 @@ table>tbody>tr:nth-child(even).playing>td:nth-child(even) {font-weight: bold;}
 
 table tr.selected {
   background: rgb(30,30,30);
-}
+} 

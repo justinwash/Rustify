@@ -25,10 +25,10 @@ fn main() {
 
 fn create_webview() -> WVResult {
     let html = format!(
-        include_str!("./web/index.html"),
+        include_str!("./web/index-2.html"),
         style = include_str!("./web/index.css"),
-        script = include_str!("./web/index.js") ,
-        jquery = include_str!("./web/dep/jquery.min.js")
+        script = include_str!("./web/index-2.js") ,
+        preact = include_str!("./web/dep/preact.js")
     );
 
     let webview = web_view::builder()
