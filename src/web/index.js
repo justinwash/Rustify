@@ -4,9 +4,9 @@ new Vue({
     scrubber: 0,
     currentTrack: {
       id: '',
-      title: 'Song Title',
-      artist: 'Artist Name',
-      album: 'Album Title',
+      title: '-',
+      artist: '-',
+      album: '-',
       length: 0,
     },
     queue: {

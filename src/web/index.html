@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="stack">
-    <div class="queue">
+    <div class="tracklist">
       <table id="queueTable">
         <tr v-for="track in queue.tracks" 
             v-bind:class="{{  selected: queue.highlightedTrackId == track.id,
@@ -25,7 +25,7 @@
         </tr>
       </table>
     </div>
-    <div class="browser">
+    <div class="tracklist">
       <div class="browser-search-bar">
         <input class="browser-search-input" placeholder="Find Tunes" /> <button class="browser-search-button">Search</button><br>
       </div>

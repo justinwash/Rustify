@@ -6,6 +6,7 @@ extern crate tokio_core;
 extern crate librespot;
 
 use std::thread;
+use std::sync::mpsc;
 
 use web_view::*;
 // use std::io;
@@ -24,6 +25,36 @@ fn main() {
 }
 
 fn create_webview() -> WVResult {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        let mut core = Core::new().unwrap();
+        let handle = core.handle();
+    
+        let session_config = SessionConfig::default();
+        let player_config = PlayerConfig::default();
+    
+        let username = String::from("");
+        let password = String::from("");
+        
+        let credentials = Credentials::with_password(username, password);
+    
+        let backend = audio_backend::find(None).unwrap();
+    
+        println!("Connecting...");
+        let session = core
+            .run(Session::connect(session_config, credentials, None, handle))
+            .unwrap();
+        println!("Connected!");
+    
+        let (player, _) = Player::new(player_config, session.clone(), None, move || (backend)(None));
+
+        for track in rx {
+            println!("playing new track");
+            core.run(player.load(track, true, 0)).unwrap();
+        }
+    });
+
     let html = format!(
         include_str!("./web/index.html"),
         style = include_str!("./web/index.css"),
@@ -45,34 +76,9 @@ fn create_webview() -> WVResult {
                 Init => (),
                 Log { text } => println!("{}", text),
                 Play { song } => {
-                    thread::spawn(move || {
-                        let mut core = Core::new().unwrap();
-                        let handle = core.handle();
-    
-                        let session_config = SessionConfig::default();
-                        let player_config = PlayerConfig::default();
-    
-                        let username = String::from("");
-                        let password = String::from("");
-        
-                        let credentials = Credentials::with_password(username, password);
-    
-                        let track = SpotifyId::from_base62(&song.id).unwrap();
-    
-                        let backend = audio_backend::find(None).unwrap();
-    
-                        println!("Connecting ..");
-                        let session = core
-                            .run(Session::connect(session_config, credentials, None, handle))
-                            .unwrap();
-    
-                        let (player, _) = Player::new(player_config, session.clone(), None, move || (backend)(None));
-    
-                        println!("Playing {} by {}", song.title, song.artist);
-                        core.run(player.load(track, true, 0)).unwrap();
-    
-                        println!("Done");
-                    });
+                    let track = SpotifyId::from_base62(&song.id).unwrap();
+                    tx.send(track).unwrap();
+                    println!("Playing {} by {}", song.title, song.artist);   
                 }
             }   
             Ok(())

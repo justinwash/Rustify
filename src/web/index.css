@@ -67,7 +67,7 @@ input[type=range] {
   font-weight: 400;
 }
 
-.queue {
+.tracklist {
   box-sizing: border-box;
   height: calc(50% - 24px - 0.5rem);
   background: rgb(45, 45, 45);
@@ -123,13 +123,6 @@ table>tbody>tr:nth-child(even).playing>td:nth-child(even) {font-weight: bold;}
    border: solid 1px grey;
    background: rgb(30,30,30);
    color: white;
-}
-
-.browser {
-  box-sizing: border-box;
-  height: calc(50% - 24px - 0.5rem);
-  background: rgb(45, 45, 45);
-  overflow-y: auto;
 }
 
 .footer {
