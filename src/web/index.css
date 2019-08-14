@@ -1,36 +1,41 @@
 html {
+  box-sizing: border-box;
   font-family: sans-serif;
   background: #201F1D;
   color: white;
   overflow: hidden;
 }
 
-.main {
-  overflow: hidden;
-}
-
 .stack {
+  box-sizing: border-box;
   --space: 0.5rem;
   overflow: hidden;
 }
 
 .stack > * {
+  box-sizing: border-box;
   margin-top: 0;
   margin-bottom: 0;
 } 
 
 .stack > * + * {
+  box-sizing: border-box;
   margin-top: 0.5rem;
 }
 
+.main {
+  overflow: hidden;
+}
+
 .now-playing {
+  box-sizing: border-box;
+  height: 48px;
   width: 100%;
   font-weight: bold;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-  height: 48px;
 }
 
 .controls {
@@ -63,7 +68,8 @@ input[type=range] {
 }
 
 .queue {
-  height: calc(((100% - 48px) / 100) * 46);
+  box-sizing: border-box;
+  height: calc(50% - 24px - 0.5rem);
   background: rgb(45, 45, 45);
   overflow-y: auto;
 }
@@ -120,7 +126,8 @@ table>tbody>tr:nth-child(even).playing>td:nth-child(even) {font-weight: bold;}
 }
 
 .browser {
-  height: calc(((100% - 48px) / 100) * 46);
+  box-sizing: border-box;
+  height: calc(50% - 24px - 0.5rem);
   background: rgb(45, 45, 45);
   overflow-y: auto;
 }

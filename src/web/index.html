@@ -10,30 +10,29 @@
       <div class="controls-buttons">⏪ ⏯ ⏩</div>
     </div>
   </div>
-  <div class="queue">
-    <table id="queueTable">
-      <tr v-for="track in queue.tracks" 
-          v-bind:class="{{  selected: queue.highlightedTrackId == track.id,
-                            playing: currentTrack.id == track.id }}"
-          v-on:click="highlightInQueue(track.id)"
-          v-on:dblclick="playFromQueue(track)">
-        <td>{{{{ track.title }}}}</td>
-        <td>{{{{ track.artist }}}}</td>
-        <td>{{{{ track.album }}}}</td>
-        <td>{{{{ fancyTimeFormat(track.length) }}}}</td>
-      </tr>
-    </table>
-  </div>
-  <div class="browser">
-    <div class="browser-search-bar">
-      <input class="browser-search-input" placeholder="Find Tunes" /> <button class="browser-search-button">Search</button><br>
+  <div class="stack">
+    <div class="queue">
+      <table id="queueTable">
+        <tr v-for="track in queue.tracks" 
+            v-bind:class="{{  selected: queue.highlightedTrackId == track.id,
+                              playing: currentTrack.id == track.id }}"
+            v-on:click="highlightInQueue(track.id)"
+            v-on:dblclick="playFromQueue(track)">
+          <td>{{{{ track.title }}}}</td>
+          <td>{{{{ track.artist }}}}</td>
+          <td>{{{{ track.album }}}}</td>
+          <td>{{{{ fancyTimeFormat(track.length) }}}}</td>
+        </tr>
+      </table>
     </div>
-    <table id="browserTable">
+    <div class="browser">
+      <div class="browser-search-bar">
+        <input class="browser-search-input" placeholder="Find Tunes" /> <button class="browser-search-button">Search</button><br>
+      </div>
+      <table id="browserTable">
 
-    </table>
-  </div>
-  <div class="footer">
-    © 2019 Justin Wash
+      </table>
+    </div>
   </div>
 </div>
 
